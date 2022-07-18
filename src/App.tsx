@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "./components/Button";
 import { MovieCard } from "./components/MovieCard";
@@ -24,6 +24,15 @@ export function App() {
   const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>(
     {} as GenreResponseProps
   );
+
+  const content = useMemo(() => {
+return(
+  <div className="container">
+  <Header selectedGenre={selectedGenre} />
+  <Content movies={movies} />
+</div>
+)
+  },[movies,selectedGenre])
 
   useEffect(() => {
     api.get<GenreResponseProps[]>("genres").then((response) => {
@@ -53,10 +62,7 @@ export function App() {
         setSelectedGenreId={setSelectedGenreId}
       />
 
-      <div className="container">
-        <Header selectedGenre={selectedGenre} />
-        <Content movies={movies} />
-      </div>
+      {content}
     </div>
   );
 }

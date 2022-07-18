@@ -1,11 +1,12 @@
 import { MovieProps } from "../@types/movieProps";
 import { MovieCard } from "./MovieCard";
+import {memo} from 'react'
 
 interface ContentProps {
   movies: MovieProps[];
 }
 
-export function Content({ movies }: ContentProps) {
+function ContentComponent({ movies }: ContentProps) {
   return (
     <main>
       <div className="movies-list">
@@ -22,3 +23,7 @@ export function Content({ movies }: ContentProps) {
     </main>
   );
 }
+
+export const Content = memo(ContentComponent, (prevProps, nextProps) => {
+  return Object.is(prevProps.movies, nextProps.movies);
+})
